@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">XYZReader</string>
+
+    <string name="error_header_text">Content unavailable</string>
+    <string name="error_sub_header_text">Something happened while trying to load the articles, try again later</string>
+    <string name="error_snack_bar">Something went wrong!</string>
+    <string name="empty_header_text">Oh, seems that there\'s no articles for now!</string>
+    <string name="article_click_text">You clicked on %s!</string>
+    <string name="article_title_mock">Some title</string>
+    <string name="article_date_mock">May 22, 2018</string>
+    <string name="article_author">by %s</string>
+
+</resources>

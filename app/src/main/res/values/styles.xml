@@ -1,0 +1,37 @@
+<resources>
+
+    <style name="articleTitleStyle" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="articleOtherInfoStyle" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="errorHeaderStyle">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textSize">@dimen/error_header_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="errorSubHeaderStyle">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textSize">@dimen/error_sub_header_text_size</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="emptyHeaderStyle">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textSize">@dimen/empty_header_text_size</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+</resources>
