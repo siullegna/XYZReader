@@ -16,19 +16,30 @@ public class DateConverter {
     private static final DateFormat toFormat = new SimpleDateFormat("MMM dd, YYYY", Locale.getDefault());
 
     @TypeConverter
-    public static Date fromString(final String publishedDate) {
+    public static Date fromLong(final Long publishedDate) {
+        return new Date(publishedDate);
+    }
+
+    @TypeConverter
+    public static Long fromDate(final Date publishedDate) {
+        if (publishedDate == null) {
+            return null;
+        }
+        return publishedDate.getTime();
+    }
+
+    public static String fromDateToString(final Date publishedDate) {
+        if (publishedDate == null) {
+            return null;
+        }
+        return toFormat.format(publishedDate);
+    }
+
+    public static Date fromStringToDate(final String publishedDate) {
         try {
             return fromFormat.parse(publishedDate);
         } catch (ParseException e) {
             return null;
         }
-    }
-
-    @TypeConverter
-    public static String fromDate(final Date publishedDate) {
-        if (publishedDate == null) {
-            return null;
-        }
-        return toFormat.format(publishedDate);
     }
 }

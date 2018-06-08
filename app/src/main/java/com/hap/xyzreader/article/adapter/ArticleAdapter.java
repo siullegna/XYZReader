@@ -25,9 +25,24 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleHolder> {
     @Inject
     protected Context context;
     private int headerSize = -1;
+    private ArticleHolder.OnArticleClickListener onArticleClickListener;
 
     public void setHeaderSize(int headerSize) {
         this.headerSize = headerSize;
+    }
+
+    public void setOnArticleClickListener(ArticleHolder.OnArticleClickListener onArticleClickListener) {
+        this.onArticleClickListener = onArticleClickListener;
+    }
+
+    public ArrayList<Integer> getArticleIds() {
+        final ArrayList<Integer> articleIds = new ArrayList<>();
+
+        for (final ArticleEntity articleEntity : articleEntities) {
+            articleIds.add(articleEntity.getId());
+        }
+
+        return articleIds;
     }
 
     public ArticleAdapter() {
@@ -51,7 +66,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleHolder> {
         if (headerSize <= -1) {
             throw new IllegalArgumentException("You must provide a {headerSize} > 0");
         }
-        holder.setupView(articleEntity, headerSize);
+        holder.setupView(articleEntity, position, headerSize, onArticleClickListener);
     }
 
     @Override

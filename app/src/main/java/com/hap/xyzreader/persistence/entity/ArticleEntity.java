@@ -5,6 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.hap.xyzreader.persistence.converter.DateConverter;
 import com.hap.xyzreader.persistence.model.XYZReaderResponse;
@@ -16,7 +18,7 @@ import java.util.Date;
  * Created by luis on 5/8/18.
  */
 @Entity(tableName = ArticleColumnInfo.TABLE_NAME, indices = {@Index(ArticleColumnInfo._ID)})
-public class ArticleEntity {
+public class ArticleEntity implements Parcelable {
     @PrimaryKey
     @ColumnInfo(name = ArticleColumnInfo._ID)
     private int id;
@@ -114,7 +116,7 @@ public class ArticleEntity {
         this.publishedDate = publishedDate;
     }
 
-    public static ArticleEntity convert(XYZReaderResponse xyzReaderResponse) {
+    private static ArticleEntity convert(XYZReaderResponse xyzReaderResponse) {
         final ArticleEntity articleEntity = new ArticleEntity();
 
         articleEntity.id = xyzReaderResponse.getId();
@@ -124,7 +126,7 @@ public class ArticleEntity {
         articleEntity.thumb = xyzReaderResponse.getThumb();
         articleEntity.photo = xyzReaderResponse.getPhoto();
         articleEntity.aspectRatio = xyzReaderResponse.getAspectRatio();
-        articleEntity.publishedDate = DateConverter.fromString(xyzReaderResponse.getPublishedDate());
+        articleEntity.publishedDate = DateConverter.fromStringToDate(xyzReaderResponse.getPublishedDate());
 
         return articleEntity;
     }
@@ -139,4 +141,45 @@ public class ArticleEntity {
 
         return xyzReaderEntities;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.author);
+        dest.writeString(this.body);
+        dest.writeString(this.thumb);
+        dest.writeString(this.photo);
+        dest.writeFloat(this.aspectRatio);
+        dest.writeLong(this.publishedDate != null ? this.publishedDate.getTime() : -1);
+    }
+
+    protected ArticleEntity(Parcel in) {
+        this.id = in.readInt();
+        this.title = in.readString();
+        this.author = in.readString();
+        this.body = in.readString();
+        this.thumb = in.readString();
+        this.photo = in.readString();
+        this.aspectRatio = in.readFloat();
+        long tmpPublishedDate = in.readLong();
+        this.publishedDate = tmpPublishedDate == -1 ? null : new Date(tmpPublishedDate);
+    }
+
+    public static final Creator<ArticleEntity> CREATOR = new Creator<ArticleEntity>() {
+        @Override
+        public ArticleEntity createFromParcel(Parcel source) {
+            return new ArticleEntity(source);
+        }
+
+        @Override
+        public ArticleEntity[] newArray(int size) {
+            return new ArticleEntity[size];
+        }
+    };
 }

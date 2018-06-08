@@ -24,9 +24,13 @@ import javax.inject.Inject;
 public abstract class BaseAppActivity extends AppCompatActivity implements AppInterface {
     private Snackbar snackbar;
     private CoordinatorLayout root;
+    @Nullable
     protected Toolbar toolbar;
+    @Nullable
     private ProgressBar loader;
+    @Nullable
     private EmptyScreenView emptyScreenView;
+    @Nullable
     private ErrorScreenView errorScreenView;
 
     @Inject

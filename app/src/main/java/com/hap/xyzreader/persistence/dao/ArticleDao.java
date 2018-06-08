@@ -22,4 +22,10 @@ public interface ArticleDao {
             + "FROM "
             + ArticleColumnInfo.TABLE_NAME)
     List<ArticleEntity> selectAll();
+
+    @Query("SELECT * "
+            + "FROM "
+            + ArticleColumnInfo.TABLE_NAME
+            + " WHERE " + ArticleColumnInfo._ID + " = :articleId")
+    ArticleEntity selectArticleById(final int articleId);
 }

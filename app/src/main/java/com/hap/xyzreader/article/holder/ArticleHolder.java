@@ -14,6 +14,9 @@ import com.hap.xyzreader.persistence.converter.DateConverter;
 import com.hap.xyzreader.persistence.entity.ArticleEntity;
 import com.hap.xyzreader.widget.PhotoDraweeView;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -43,7 +46,7 @@ public class ArticleHolder extends RecyclerView.ViewHolder {
         context = itemView.getContext();
     }
 
-    public void setupView(final ArticleEntity articleEntity, final int headerSize) {
+    public void setupView(final ArticleEntity articleEntity, final int articlePosition, final int headerSize, @Nullable final OnArticleClickListener onArticleClickListener) {
         if (isPhotoLoaded) {
             articleLoader.setVisibility(View.GONE);
         } else {
@@ -75,7 +78,20 @@ public class ArticleHolder extends RecyclerView.ViewHolder {
 
         // we setup the information about the article
         articleTitle.setText(articleEntity.getTitle());
-        articleDate.setText(DateConverter.fromDate(articleEntity.getPublishedDate()));
+        articleDate.setText(DateConverter.fromDateToString(articleEntity.getPublishedDate()));
         articleAuthor.setText(context.getString(R.string.article_author, articleEntity.getAuthor()));
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onArticleClickListener != null) {
+                    onArticleClickListener.onOpenArticle(articlePosition, articleThumbnail);
+                }
+            }
+        });
+    }
+
+    public interface OnArticleClickListener {
+        void onOpenArticle(final int articlePosition, final PhotoDraweeView articleThumbnail);
     }
 }

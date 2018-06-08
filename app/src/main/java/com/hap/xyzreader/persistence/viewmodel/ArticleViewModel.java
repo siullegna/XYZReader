@@ -34,10 +34,15 @@ public class ArticleViewModel extends ViewModel implements ArticleViewInterface 
     private final ArticleDataSource articleDataSource;
     private final XYZReaderService xyzReaderService;
     private final MutableLiveData<ArticleResponse> articles = new MutableLiveData<>();
+    private final MutableLiveData<ArticleEntity> article = new MutableLiveData<>();
     private LoadingState loadingState = LoadingState.IDLE;
 
     public MutableLiveData<ArticleResponse> getArticles() {
         return articles;
+    }
+
+    public MutableLiveData<ArticleEntity> getArticle() {
+        return article;
     }
 
     public LoadingState getLoadingState() {
@@ -52,8 +57,17 @@ public class ArticleViewModel extends ViewModel implements ArticleViewInterface 
         return articleAdapter;
     }
 
+    public ArrayList<Integer> getArticleIds() {
+        return articleAdapter.getArticleIds();
+    }
+
     public boolean isEmptyArticleList() {
         return articleAdapter.isEmpty();
+    }
+
+    @Override
+    public LiveData<ArticleResponse> getArticlesList() {
+        return xyzReaderService.getArticlesList();
     }
 
     ArticleViewModel(ArticleDataSource articleDataSource, XYZReaderService xyzReaderService) {
@@ -61,11 +75,6 @@ public class ArticleViewModel extends ViewModel implements ArticleViewInterface 
         this.xyzReaderService = xyzReaderService;
 
         XYZReaderApplication.getInstance().getXyzReaderAppComponent().inject(this);
-    }
-
-    @Override
-    public LiveData<ArticleResponse> getArticlesList() {
-        return xyzReaderService.getArticlesList();
     }
 
     public void handleResponse(@Nonnull final ArticleResponse articleResponse) {
@@ -105,6 +114,30 @@ public class ArticleViewModel extends ViewModel implements ArticleViewInterface 
                     @Override
                     public void accept(ArticleResponse articleResponse) throws Exception {
                         articles.setValue(articleResponse);
+                    }
+                });
+    }
+
+    public void selectArticleById(final int articleId) {
+        Observable.just(articleDataSource)
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<ArticleDataSource>() {
+                    @Override
+                    public void accept(ArticleDataSource articleDataSource) throws Exception {
+                        final ArticleEntity articleEntity = articleDataSource.selectArticleById(articleId);
+                        notifyArticle(articleEntity);
+                    }
+                });
+    }
+
+    private void notifyArticle(final ArticleEntity articleEntity) {
+        Observable.just(articleEntity)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<ArticleEntity>() {
+                    @Override
+                    public void accept(ArticleEntity articleEntity) throws Exception {
+                        article.setValue(articleEntity);
                     }
                 });
     }

@@ -9,5 +9,8 @@
     <string name="article_title_mock">Some title</string>
     <string name="article_date_mock">May 22, 2018</string>
     <string name="article_author">by %s</string>
+    <string name="body_end_empty">\n\n\n\n</string>
+    <string name="share_article">Share this article</string>
+    <string name="action_share">Share</string>
 
 </resources>

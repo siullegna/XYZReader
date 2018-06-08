@@ -24,4 +24,9 @@ public class ArticleDataSourceImpl implements ArticleDataSource {
     public List<ArticleEntity> selectAll() {
         return articleDao.selectAll();
     }
+
+    @Override
+    public ArticleEntity selectArticleById(int articleId) {
+        return articleDao.selectArticleById(articleId);
+    }
 }
