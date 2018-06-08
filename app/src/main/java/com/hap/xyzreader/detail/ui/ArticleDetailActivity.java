@@ -1,12 +1,19 @@
 package com.hap.xyzreader.detail.ui;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.transition.Slide;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.hap.xyzreader.BaseAppActivity;
 import com.hap.xyzreader.R;
@@ -31,6 +38,18 @@ public class ArticleDetailActivity extends BaseAppActivity {
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final ViewPager viewPager = findViewById(R.id.view_pager);
+
+        final FloatingActionButton shareFab = findViewById(R.id.share_fab);
+
+        shareFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(ArticleDetailActivity.this)
+                        .setType("text/plain")
+                        .setText(getString(R.string.share_article))
+                        .getIntent(), getString(R.string.action_share)));
+            }
+        });
 
         setSupportActionBar(toolbar);
 

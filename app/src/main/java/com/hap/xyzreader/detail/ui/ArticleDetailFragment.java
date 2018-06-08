@@ -7,10 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ShareCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +19,7 @@ import com.hap.xyzreader.R;
 import com.hap.xyzreader.detail.adapter.BodyAdapter;
 import com.hap.xyzreader.detail.model.BodyItem;
 import com.hap.xyzreader.detail.model.BodyType;
-import com.hap.xyzreader.persistence.converter.DateConverter;
 import com.hap.xyzreader.persistence.entity.ArticleEntity;
-import com.hap.xyzreader.widget.PhotoDraweeView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,19 +81,6 @@ public class ArticleDetailFragment extends BaseAppFragment {
 
         loader = view.findViewById(R.id.loader);
         final RecyclerView rvBody = view.findViewById(R.id.rv_body);
-        final FloatingActionButton shareFab = view.findViewById(R.id.share_fab);
-
-        shareFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() != null) {
-                    startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                            .setType("text/plain")
-                            .setText(getString(R.string.share_article))
-                            .getIntent(), getString(R.string.action_share)));
-                }
-            }
-        });
 
         bodyAdapter = new BodyAdapter();
 

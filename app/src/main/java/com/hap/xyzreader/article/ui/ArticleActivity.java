@@ -1,9 +1,12 @@
 package com.hap.xyzreader.article.ui;
 
+import android.app.ActivityOptions;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -19,6 +22,8 @@ import com.hap.xyzreader.detail.ui.ArticleDetailActivity;
 import com.hap.xyzreader.util.DeviceInfo;
 import com.hap.xyzreader.util.LoadingState;
 import com.hap.xyzreader.widget.PhotoDraweeView;
+
+import java.util.List;
 
 public class ArticleActivity extends BaseAppActivity implements ArticleHolder.OnArticleClickListener {
     private SwipeRefreshLayout swipeRefresh;
@@ -142,8 +147,14 @@ public class ArticleActivity extends BaseAppActivity implements ArticleHolder.On
         args.putIntegerArrayList(ArticleDetailActivity.ARG_ARTICLE_ID_LIST_KEY, articleViewModel.getArticleIds());
         args.putInt(ArticleDetailActivity.ARG_CURRENT_POSITION_KEY, articlePosition);
         detailIntent.putExtras(args);
-        // TODO - check this for transition
-        startActivity(detailIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final Bundle bundle = ActivityOptions
+                    .makeSceneTransitionAnimation(this)
+                    .toBundle();
+            startActivity(detailIntent, bundle);
+        } else {
+            startActivity(detailIntent);
+        }
     }
 
     private void loadArticles() {

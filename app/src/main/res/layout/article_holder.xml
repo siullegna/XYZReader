@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    app:cardCornerRadius="3dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="@dimen/card_view_radius"
+    app:cardElevation="@dimen/card_view_elevation">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             android:background="@color/colorAccent"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="@dimen/article_info_container_padding">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/article_title"
